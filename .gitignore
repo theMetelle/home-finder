@@ -87,6 +87,8 @@ ipython_config.py
 
 runs/classify/train/
 faiss.index
+home_yolov8s.pt
+*yolo*
 
 
 # pyenv
