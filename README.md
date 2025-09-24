@@ -13,14 +13,14 @@ Included in this package are 2 broad categories of ranking, each with 2 sub-type
 
 ### Text-Based Ranking
 Text-based rankings transform image descriptions and user queries with Text-Frequency, Inverse Document Frequency vectorisation, and compare them. These include:
-    * Cosine Similarity ('tf_idf_cosine' ranking)
-    * Minkowski distance of nearest-neighbours ('neighbours' ranking)
+    - Cosine Similarity ('tf_idf_cosine' ranking)
+    - Minkowski distance of nearest-neighbours ('neighbours' ranking)
 
 ### Image-Based Ranking
 Image-based rankings assess the images themselves, comparing their derived content with the query.
 These include:
-    * Object detection to see if object classes similar to or identical to those mentioned in the query appear in the image ('object_detection' ranking)
-    * CLIP image embedding + Facebook AI Similarity Search to examine the proximity between the embedded image and user query. 
+    - Object detection to see if object classes similar to or identical to those mentioned in the query appear in the image ('object_detection' ranking)
+    - CLIP image embedding + Facebook AI Similarity Search to examine the proximity between the embedded image and user query. 
 
 The object detection is from Ultralytics, and uses the 'yolov8s-world' pre-trained model. (see docs: https://docs.ultralytics.com/models/yolo-world/)
 The latter is an implementation by Ultralytics (also behind the object detection) that wraps around each separate module for streamlined workflow and minimal overhead. For more info see https://docs.ultralytics.com/guides/similarity-search/
