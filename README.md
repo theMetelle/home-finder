@@ -31,6 +31,17 @@ Final scoring are derived through a chosen aggregation method, with the option t
 From the final ranking of highest to lowest-scoring images, the top n are returned.
 
 
+## QuickStart
+- Clone the repo
+- Inside the working directory containing the cloned project, run:
+    
+    `
+    pip install poetry \
+    poetry install
+    `
+- Go over to `demo.ipynb` where you can try out different weightings, rankings, and query inputs.
+
+
 # Original Instructions
 
 When users search for properties using specific keywords, they expect to see results
