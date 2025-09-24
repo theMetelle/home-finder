@@ -112,7 +112,7 @@ class AI_SimRanker(Ranker):
     def _name(self) -> str:
         return 'ai_similarity'
     
-    def rank(self, query: str, source_data: List[ImageData], **kwargs) -> List[ImageData]:
+    def rank(self, query: str, source_data: List[ImageData], quiet: bool=True, **kwargs) -> List[ImageData]:
         
         object_maker = kwargs.get('object_maker')
         if object_maker is None:
@@ -130,7 +130,7 @@ class AI_SimRanker(Ranker):
             visual_searcher = solutions.VisualAISearch(device=object_maker.device, data=str(resolved_data_dir))
             
             # Validate the searcher state
-            if not self._validate_searcher(visual_searcher):
+            if not self._validate_searcher(visual_searcher, quiet):
                 print("Searcher validation failed, rebuilding...")
                 self._clear_faiss_cache()
                 visual_searcher = solutions.VisualAISearch(device=object_maker.device, data=str(resolved_data_dir))
@@ -169,7 +169,7 @@ class AI_SimRanker(Ranker):
                 except Exception as e:
                     print(f"Failed to remove {cache_file}: {e}")
     
-    def _validate_searcher(self, visual_searcher) -> bool:
+    def _validate_searcher(self, visual_searcher: solutions.VisualAISearch, quiet: bool=True) -> bool:
         """Validate that the searcher state is consistent."""
         try:
             # Check if index and image_paths are consistent
@@ -194,7 +194,8 @@ class AI_SimRanker(Ranker):
             return True
             
         except Exception as e:
-            print(f"Validation error: {e}")
+            if not quiet:
+                print(f"Validation error: {e}")
             return False
     
     def _safe_search(self, visual_searcher, query: str, source_data: List[ImageData]) -> List[Tuple[str, float]]:
