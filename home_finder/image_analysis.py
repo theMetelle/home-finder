@@ -122,14 +122,10 @@ class AI_SimRanker(Ranker):
             object_maker.transform()
 
         resolved_data_dir = Path(object_maker.data_dir).resolve()
-        
-        # Clear any corrupted cache files before initializing
         self._clear_faiss_cache()
         
         try:
             visual_searcher = solutions.VisualAISearch(device=object_maker.device, data=str(resolved_data_dir))
-            
-            # Validate the searcher state
             if not self._validate_searcher(visual_searcher, quiet):
                 print("Searcher validation failed, rebuilding...")
                 self._clear_faiss_cache()
@@ -145,14 +141,11 @@ class AI_SimRanker(Ranker):
                 print(f"Failed to initialize searcher after cache clear: {e2}")
                 return self._fallback_scoring(source_data)
         
-        # Get search results using safe method
         try:
             scored_results = self._safe_search(visual_searcher, query, source_data)
         except Exception as e:
             print(f"Search failed: {e}")
             return self._fallback_scoring(source_data)
-        
-        # Apply scores to ImageData objects
         return self._apply_scores(scored_results, source_data)
     
     def _clear_faiss_cache(self):
