@@ -1,4 +1,5 @@
 # ensemble to put all together
+import re
 from typing import Dict, List, Literal
 import numpy as np
 from enum import Enum
@@ -134,6 +135,8 @@ class EnsembleImageFinder:
             Whether or not to display the actual images retrieved after ranking, in addition to returning their `ImageData` info.
         """
 
+        clean_query = re.sub('\,\w', ', ', query)
+
         for ranker in self.ranking_types:
             if exclude is not None and ranker._name() in exclude:
                 continue
@@ -141,9 +144,9 @@ class EnsembleImageFinder:
             print(f'Ranking images with {ranker._name()}...')
 
             if ranker._name() in ['tf_idf_cosine', 'neighbours']:
-                ranker.rank(query=query, source_data=self.source_data, tf_idf_maker=self.tf_maker)
+                ranker.rank(query=clean_query, source_data=self.source_data, tf_idf_maker=self.tf_maker)
             elif ranker._name() in ['object_detection', 'ai_similarity']:
-                ranker.rank(query=query, source_data=self.source_data, object_maker=self.object_maker)
+                ranker.rank(query=clean_query, source_data=self.source_data, object_maker=self.object_maker)
 
         if self.method in ['sum', 'mean']:
             final_ranking = self._aggregated_rank(self.source_data)

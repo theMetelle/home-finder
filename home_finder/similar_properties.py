@@ -1,10 +1,10 @@
-from typing import Dict, List
+from typing import List
 import os
 import pandas as pd
 from dataclasses import dataclass
 
-from home_finder.data import ImageData, Ranker, prep_input
-from home_finder.ensemble import EnsembleImageFinder, RankingType
+from home_finder.data import ImageData, prep_input
+from home_finder.ensemble import EnsembleImageFinder
 
 @dataclass
 class SimilarProperties:
