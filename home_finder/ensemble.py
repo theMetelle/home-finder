@@ -162,3 +162,9 @@ class EnsembleImageFinder:
                 ImageShow.IPythonViewer().show_image(display_img)
         
         return most_relevant_images
+
+
+    def reset_scores(self) -> None:
+        """Resets the scores for all images back to 0"""
+        for imgd in self.source_data:
+            imgd.scores = {k: 0.0 for k in imgd.scores.keys()}
