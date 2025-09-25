@@ -39,6 +39,8 @@ class RankingOutput:
 def prep_input(df: pd.DataFrame, image_col: str = 'url', text_col: str = 'queries', quiet: bool = True) -> List[ImageData]:
     """Turns dataframe data into `ImageData` objects to facilitate processing."""
     
+    print('Preparing image data...')
+    
     data_dicts = df[[image_col, text_col]].to_dict('records')
     image_data: List[ImageData] = []
 
@@ -58,7 +60,7 @@ def prep_input(df: pd.DataFrame, image_col: str = 'url', text_col: str = 'querie
 
         image_data.append(ImageData(url=d[image_col], description=d[text_col], path_name=path))
     
-            
+
     return image_data
 
 

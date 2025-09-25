@@ -30,6 +30,17 @@ class SimilarProperties:
     def query(cls, query: str, **kwargs) -> List[ImageData]:
         """Returns the top x most relevant property images for a given user query."""
         return cls.image_retriever.find_most_relevant(query=query, **kwargs)
+    
+    @staticmethod
+    def clear_image_cache(dir: str = 'tmp/images') -> None:
+        
+        remove_count = 0
+        for f in os.listdir(dir):
+            os.remove(f"{dir}/{f}")
+            remove_count += 1
+        
+        print(f"{remove_count} files removed from {dir}")
 
     
 
+# TODO: Add validation steps

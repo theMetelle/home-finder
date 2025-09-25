@@ -4,6 +4,7 @@ from typing import Dict, List, Literal
 import numpy as np
 from enum import Enum
 from PIL import Image, ImageShow
+from ultralytics.solutions import VisualAISearch
 from home_finder.data import Ranker, ImageData
 from home_finder.image_analysis import AI_SimRanker, ObjectsMaker, ObjectDetectionRanker
 from home_finder.text_analysis import TfIdfCosineRanker, NeighbourRanker, TfIdfMaker
@@ -60,11 +61,13 @@ class EnsembleImageFinder:
 
         self.final_ranking: List[ImageData] = []
 
+        self.tf_maker = TfIdfMaker(input_data=source_data)
+        self.tf_maker.transform()
+
         if any([isinstance(r, ObjectDetectionRanker) or isinstance(r, AI_SimRanker) for r in self.ranking_types]):
             self.object_maker = ObjectsMaker(input_data=source_data)
-            self.tf_maker = TfIdfMaker(input_data=source_data)
-            self.tf_maker.transform()
             self.object_maker._load_appropriate_objects(object_list=self.tf_maker.word_features)
+            self.object_maker.transform()
     
     def _set_weights(self, **kwargs) -> None:
         """Changes the `weights` attributes of the `EnsembleImageFinder`"""
